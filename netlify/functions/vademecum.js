@@ -47,12 +47,20 @@ exports.handler = async (event) => {
       body
     });
 
-    const sinTacc = result.data.includes('isologo1.jpg');
+        const sinTacc = result.data.includes('isologo1.jpg');
 
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify({ nombre, sin_tacc: sinTacc, found: result.data.length > 100 })
+      body: JSON.stringify({ 
+        nombre, 
+        sin_tacc: sinTacc, 
+        found: result.data.length > 100,
+        session_length: session.data.length,
+        result_length: result.data.length,
+        dtid,
+        result_preview: result.data.substring(0, 200)
+      })
     };
 
   } catch (err) {
