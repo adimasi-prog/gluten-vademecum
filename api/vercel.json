@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/vademecum.py": {
+      "runtime": "python3.9"
+    }
+  }
+}
