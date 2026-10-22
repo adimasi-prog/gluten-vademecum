@@ -89,7 +89,7 @@ exports.handler = async function(event) {
 
   try {
     var result = await buscar(nombre);
-    var sinTacc = result.data.includes('isologo1.jpg');
+    var sinTacc = !result.data.includes('null.gif') && result.data.includes('zul.wgt.Image');
 
     return {
       statusCode: 200,
