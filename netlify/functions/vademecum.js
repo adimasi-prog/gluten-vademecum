@@ -84,7 +84,7 @@ exports.handler = async function(event) {
         nombre: nombre,
         sin_tacc: sinTacc,
         found: result.data.length > 50,
-        result_preview: result.data.substring(0, 500)
+        result_preview: result.data.substring(0, 2000)
       })
     };
 
