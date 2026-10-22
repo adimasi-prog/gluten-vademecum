@@ -30,11 +30,14 @@ exports.handler = async (event) => {
     const dtid = dtidMatch ? dtidMatch[1] : 'z_a8y';
     const cookies = session.headers['set-cookie']?.join('; ') || '';
 
-    const body = new URLSearchParams({
+    c    const body = new URLSearchParams({
       dtid,
       cmd_0: 'onChange',
-      uuid_0: 'zk_comp_34',
-      data_0: JSON.stringify({ value: nombre, start: nombre.length })
+      uuid_0: 'zk_comp_28',
+      data_0: JSON.stringify({ value: nombre, start: nombre.length }),
+      cmd_1: 'onClick',
+      uuid_1: 'zk_comp_80',
+      data_1: JSON.stringify({ pageX: 143, pageY: 351, which: 1, x: 39, y: 16 })
     }).toString();
 
     const result = await makeRequest('https://servicios.pami.org.ar/vademecum/zkau', {
