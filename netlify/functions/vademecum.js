@@ -49,7 +49,7 @@ async function buscar(nombre) {
   var params = new URLSearchParams();
   params.append('dtid', dtid);
   params.append('cmd_0', 'onChange');
-  params.append('uuid_0', 'zk_comp_28');
+  params.append('uuid_0', 'zk_comp_34');
   params.append('data_0', JSON.stringify({ value: nombre, start: nombre.length }));
   params.append('cmd_1', 'onClick');
   params.append('uuid_1', 'zk_comp_80');
