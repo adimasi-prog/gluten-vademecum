@@ -89,7 +89,54 @@ exports.handler = async function(event) {
 
   try {
     var result = await buscar(nombre);
-    var sinTacc = !result.data.includes('null.gif') && result.data.includes('zul.wgt.Image');
+    // Extraer UUID del botón lupa del primer resultado
+var lupaMatch = result.data.match(/'zul\.wgt\.Button','(zk_comp_\d+)'/);
+var lupaUuid = lupaMatch ? lupaMatch[1] : null;
+
+var sinTacc = false;
+
+if (lupaUuid) {
+  // Hacer click en la lupa del primer resultado
+  var params2 = new URLSearchParams();
+  params2.append('dtid', dtid);
+  params2.append('cmd_0', 'setAttr');
+  params2.append('uuid_0', lupaUuid);
+  params2.append('data_0', JSON.stringify({"": ["disabled", true]}));
+  params2.append('cmd_1', 'onClick');
+  params2.append('uuid_1', lupaUuid);
+  params2.append('data_1', JSON.stringify({ pageX: 100, pageY: 100, which: 1, x: 8, y: 7 }));
+
+  var detail = await makeRequest(zkauUrl, {
+    method: 'POST',
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      'Accept': '*/*',
+      'Accept-Language': 'es-419,es;q=0.9',
+      'Origin': 'https://servicios.pami.org.ar',
+      'Referer': 'https://servicios.pami.org.ar/vademecum/views/consultaPublica/listado.zul',
+      'ZK-SID': zkSid,
+      'Cookie': 'JSESSIONID=' + jsessionid,
+      'Connection': 'keep-alive'
+    },
+    body: params2.toString(),
+    agent: agent
+  });
+
+  sinTacc = detail.data.includes('isologo1.jpg');
+  
+  return {
+    statusCode: 200,
+    headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+    body: JSON.stringify({
+      nombre: nombre,
+      sin_tacc: sinTacc,
+      found: true,
+      lupa_uuid: lupaUuid,
+      detail_preview: detail.data.substring(0, 500)
+    })
+  };
+}
 
     return {
       statusCode: 200,
